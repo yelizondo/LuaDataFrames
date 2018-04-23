@@ -4,7 +4,6 @@
 
 -- This method uses ftcsv to read CVS files
 -- Returns a DataFrame
-
 function readCSV(path,sep)
 	dataFrame = {}
 
@@ -237,7 +236,6 @@ function mean(table)
 
 	return sum(table) / #table
 end
-
 
 
 -- Testing area
