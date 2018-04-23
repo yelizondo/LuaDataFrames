@@ -242,5 +242,4 @@ end
 
 local dataFrame = readCSV("mtcars.csv", ",")
 
-a = sum(getCol(dataFrame,"wt"))
-print(a)
+head(getCol(dataFrame,"hp"))
