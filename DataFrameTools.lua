@@ -49,9 +49,12 @@ end
 -- Prints the head of a data frame, row or column, default is 6 rows
 function head(dataFrame, rows)
 	rows = rows or 6
-
-	for i = 1, rows+1 do -- +1 to include headers
-		printTable(dataFrame[i])
+	if (type(dataFrame[1]) == "table") then
+		for i = 1, rows+1 do -- +1 to include headers
+			printTable(dataFrame[i])
+		end
+	else 
+		print("En desarrollo")
 	end
 end
 
@@ -236,5 +239,6 @@ function mean(table)
 
 	return sum(table) / #table
 end
+
 
 
