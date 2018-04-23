@@ -242,4 +242,4 @@ end
 
 local dataFrame = readCSV("mtcars.csv", ",")
 
-head(getCol(dataFrame,"hp"))
+-- Need this working head(getCol(dataFrame,"hp"))
