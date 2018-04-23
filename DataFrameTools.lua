@@ -46,7 +46,7 @@ function printDataFrame(table)
 	end
 end
 
--- Prints the head of a data frame, default is 6 rows
+-- Prints the head of a data frame, row or column, default is 6 rows
 function head(dataFrame, rows)
 	rows = rows or 6
 
@@ -55,7 +55,7 @@ function head(dataFrame, rows)
 	end
 end
 
--- Prints the tail of a data frame, default is 6 rows
+-- Prints the tail of a data frame, row or column, default is 6 rows
 function tail(dataFrame, rows)
 	rows = rows or 6
 
