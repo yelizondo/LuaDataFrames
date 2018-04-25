@@ -25,6 +25,11 @@ c = function(arg)
 		end,
 
 		__sub = function(table,o)
+			local new = c{}
+			for i = 1, #_table do 
+				new[i]= _table[i] - o 
+			end
+			return new
 		end,
 
 		__mul = function(table, o)
