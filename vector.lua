@@ -8,12 +8,12 @@ c = function(arg)
    	table = {}
    	local metatable = {
 
-		__index = function (table,k)
-			return _table[k]
+		__index = function (table, key)
+			return _table[key]
 		end,
 
-		__newindex = function (table,k,v)
-			_table[k] = v
+		__newindex = function (table, key, value)
+			_table[key] = value
 		end,
 
 		__add = function(table,o)
@@ -50,7 +50,7 @@ c = function(arg)
 
 		__tostring = function(table)
 		end
-	
+
 	}
 	setmetatable(table, metatable)
 	return table
