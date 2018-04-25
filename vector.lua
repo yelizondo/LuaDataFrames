@@ -2,58 +2,58 @@
 c = {}
 
 c = function(arg)
-  	local t = arg
-  	local _t = t
+  	local table = arg
+  	local _table = table
    
-   	t = {}
-   	local mt = {
+   	table = {}
+   	local metatable = {
 
-		__index = function (t,k)
-			return _t[k]
+		__index = function (table,k)
+			return _table[k]
 		end,
 
-		__newindex = function (t,k,v)
-			_t[k] = v
+		__newindex = function (table,k,v)
+			_table[k] = v
 		end,
 
-		__add = function(t,o)
+		__add = function(table,o)
 		end,
 
-		__sub = function(t,o)
+		__sub = function(table,o)
 		end,
 
-		__mul = function(t,o)
+		__mul = function(table,o)
 			local new = c{}
-			for i = 1, #_t do 
-				new[i]= _t[i]*o 
+			for i = 1, #_table do 
+				new[i]= _table[i]*o 
 			end
 			return new
 		end,
 
-		__div = function(t,o)
+		__div = function(table,o)
 		end,
 
-		__mod = function(t,o)
+		__mod = function(table,o)
 		end,
 
-		__unm = function(t)
+		__unm = function(table)
 		end,
 
-		__eq = function(t,v)
+		__eq = function(table,v)
 		end,
 
-		__lt = function(t,v)
+		__lt = function(table,v)
 		end,
 
-		__le = function(t,v)
+		__le = function(table,v)
 		end,
 
-		__tostring = function(t)
+		__tostring = function(table)
 		end
 	
 	}
-	setmetatable(t, mt)
-	return t
+	setmetatable(table, metatable)
+	return table
 end
 
   local x = c{10,20,30,40}
