@@ -76,13 +76,3 @@ c = function(arg)
 	setmetatable(table, metatable)
 	return table
 end
---[[
-  local x = c{10,20,30,40}
-  local y = x * 2
-  print(y[1],y[2],y[3])
-  local z = y * 10
-print(z[1],z[2],z[3])
-]]
-
-local x = c{1,2,3}
-print(x)
