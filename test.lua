@@ -8,4 +8,5 @@ local dataFrame = readCSV("mtcars.csv", ",")
 -- Need this working 
 --printTable(getCol(dataFrame,"hp"))
 
-local var = c{1,2,3,4}
+local var = c{{1,2,9,4},{1,2,3,4}}
+print(var[1][3])
