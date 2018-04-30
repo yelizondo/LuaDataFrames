@@ -1,12 +1,6 @@
-require "DataFrameTools"
 require "vector"
 
--- Testing area
+a = c{c{1,2,3},{4,5,6,9}}
+b = c{1,2,3}
 
-local dataFrame = readCSV("mtcars.csv", ",")
-
--- Need this working 
---printTable(getCol(dataFrame,"hp"))
-
-local var = c{{1,2,9,4},{1,2,3,4}}
-print(var[1][3])
+print(a)

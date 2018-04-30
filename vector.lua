@@ -1,11 +1,18 @@
 
 c = {}
 
+
+
 c = function(arg)
   	local table = arg
   	local _table = table
-   
-   	table = {}
+
+    table = {}
+
+    table.isMatrix = function()
+		return type(table[1]) == 'table'
+	end
+
    	local metatable = {
 
 		__index = function (table, key)
@@ -71,8 +78,12 @@ c = function(arg)
 		__len = function(table)
 			return #_table
 		end
-
 	}
+
 	setmetatable(table, metatable)
 	return table
+end
+
+function vector()
+	
 end
