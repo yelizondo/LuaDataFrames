@@ -1,6 +1,8 @@
 require "vector"
 
-a = c{c{1,2,3},{4,5,6,9}}
-b = c{1,2,3}
+a = c{1,2,3,4,5}
+l = c{true,false,false,true,true}
 
-print(a)
+
+print(a[l])
+
