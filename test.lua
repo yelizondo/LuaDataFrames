@@ -1,9 +1,7 @@
 require "vector"
 
-a = c{1,2,3,4,5}
+
 l = c{2,3,3}
+print(l.names(c("dos","tres","tres")))
 
-
-
-print(a[l])
 

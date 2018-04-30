@@ -23,6 +23,8 @@ c = function(arg)
 
     table = {}
 
+
+
     -- Allows to check if all the elements are booleans
     table.allBoolean = function()
     	for i=1,#table do
@@ -51,10 +53,11 @@ c = function(arg)
     	return true
     end
 
+    -- Allows to give specific names to each element
+
+
    	local metatable = {
-
 		__index = function (table, key)
-
 			if (type(key) == "number") then
 				if (math.abs(key) > 0 and math.abs(key) <= #table) then
 					if (key > 0) then 
@@ -202,3 +205,4 @@ end
 function vector()
 	
 end
+
