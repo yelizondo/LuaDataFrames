@@ -1,16 +1,21 @@
 
+-- Prints an error and returns nil
 function THROW_ERROR(errorName)
 	print(errorName)
 	return
 end
 
-function allBoolean(table)
-	
+-- Checks if all the elements of a table are within a range
+function elementsInRange(table,min,max)
+	for i=1,#table do
+		if (not(table[i] >= min and table[i] <= max)) then 
+			return false
+		end
+	end
+	return true
 end
 
 c = {}
-
-
 
 c = function(arg)
   	local table = arg
@@ -18,6 +23,7 @@ c = function(arg)
 
     table = {}
 
+    -- Allows to check if all the elements are booleans
     table.allBoolean = function()
     	for i=1,#table do
     		if (type(table[i]) ~= "boolean") then
@@ -26,10 +32,19 @@ c = function(arg)
     	end
     	return true
     end
-
+	-- Allows to check if all the elements are strings
     table.allString = function()
     	for i=1,#table do
     		if (type(table[i]) ~= "string") then
+    			return false
+    		end
+    	end
+    	return true
+    end
+	-- Allows to check if all the elements are ints
+    table.allInt = function()
+    	for i=1,#table do
+    		if (type(table[i]) ~= "number") then
     			return false
     		end
     	end
@@ -78,6 +93,17 @@ c = function(arg)
 						return
 					end
 
+				elseif (key.allInt()) then
+					if (elementsInRange(key,1,#table)) then
+						local new = c{}
+						for i=1,#key do
+							new = new .. table[key[i]]
+						end
+						return new
+					else
+						THROW_ERROR("To index with a table, index must be between ".. 1 .. " and ".. #table..".")
+						return
+					end
 				elseif (key.allString()) then
 
 				else
