@@ -1,5 +1,4 @@
 require "vector"
+require "matrix"
 
-a = vector({mode="numeric",length=3})
-
-print(a)
+a = matrix{c{1,2,3,4},nrow = 4, byrow = TRUE}
