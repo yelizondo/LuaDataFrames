@@ -258,7 +258,29 @@ c = function(arg)
 		end,
 
 		-- Comparison Operators
-		__eq = function(table,v)
+		__eq = function(table,o)
+			local new = c{} 
+			if (type(o) == "number") then 
+				for i=1,#_table do
+					new[i] = _table[i] == o
+				end
+			elseif (type(o) == "table") then 
+				local smallest = nil
+				local biggest = nil
+				
+				if (#_table >= #o) then
+					biggest = _table
+					smallest = o
+				else
+					smallest = _table
+					biggest = o
+				end
+
+				for i=1, #biggest do
+					new = new .. (biggest[i] == smallest[calcIndex(i,#smallest)])
+				end 
+			end 
+			return new
 		end,
 
 		__lt = function(table,v)
@@ -268,17 +290,21 @@ c = function(arg)
 		end,
 
 		__concat = function(table,v)
-
+			local new = c{}
 			if (type(v) ~= "table") then 
-				table[#table+1] = v
+				new[#_table+1] = v
 			else 
+				for i=1,#_table do
+					new[i] = _table[i]
+				end
+
 				local j = 1
-				for i= #table+1, #table + #v do
-					table[i] = v[j]
+				for i = #_table+1, #_table + #v do
+					new[i] = v[j]
 					j = j + 1
 				end
 			end
-			return table
+			return new
 		end,
 
 		__tostring = function(table)
@@ -286,7 +312,15 @@ c = function(arg)
 
 			for i = 1,#_table do
 				if (_table[i] ~= nil) then
-					result = result  .. _table[i] .. "\t"
+					if (_table[i] ~= true and _table[i] ~= false) then 
+						result = result  .. _table[i] .. "\t"
+					else
+						if (_table[i]) then
+							result = result  .. "true" .. "\t"
+						else
+							result = result  .. "false" .. "\t"
+						end
+					end
 				else
 					result = result  .. "nil" .. "\t"
 				end
