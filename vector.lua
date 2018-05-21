@@ -291,11 +291,10 @@ c = function(arg)
 			return new
 		end,
 
-		__tostring = function(table)
+		__tostring = function(table) 
 			local result = ""
-
-			for i = 1,#_table do
-				if (_table[i] ~= nil) then
+			for i = 1,#_table do 
+				if (_table[i] ~= nil) then 
 					if (_table[i] ~= true and _table[i] ~= false) then 
 						result = result  .. _table[i] .. "\t"
 					else
@@ -305,7 +304,7 @@ c = function(arg)
 							result = result  .. "false" .. "\t"
 						end
 					end
-				else
+				else 
 					result = result  .. "nil" .. "\t"
 				end
 			end
@@ -367,25 +366,35 @@ function tableToVector(table)
 	return new
 end
 
-
-function vector(pMode,pLength)
-	pMode = pMode or "any"
-	pLength = pLength or 0
+function vector(args)
+	args.mode = args.mode or "any"
+	args.length = args.length or 0
 
 	local new = c{}
-
-	if (pMode == "logical") then
-	elseif (pMode == "numeric" or pMode == "double") then
-		if (pLength == 0) then 
+	if (args.length == 0) then 
 			return new
-		else
-			for i=1, pLength do
+	else
+		if (args.mode == "logical") then  
+			for i=1, args.length do
 				new = new .. false
 			end
-		end 
-	elseif (pMode == "character") then
-	elseif (pMode == "raw") then
-	elseif (pMode == "any") then	
+		elseif (args.mode == "numeric" or args.mode == "double") then
+			for i=1, args.length do
+				new = new .. 0
+			end
+		elseif (args.mode == "character") then
+			for i=1, args.length do
+				new = new .. ''
+			end
+		elseif (args.mode == "raw") then
+			for i=1, args.length do
+				new[i] = nil
+			end
+		elseif (args.mode == "any") then
+			for i=1, args.length do 
+				new[i] = nil
+			end 
+		end
 	end
 
 	return new
