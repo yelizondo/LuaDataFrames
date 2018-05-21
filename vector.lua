@@ -38,6 +38,11 @@ c = function(arg)
     end
 
    	local metatable = {
+
+   		-- Indexing function: c{}[index]
+   		-- It index with both positive and negative 
+   		-- numbers, boolean tables, index tables
+   		-- and strings
 		__index = function (table, key)
 			if (type(key) == "number") then
 				if (math.abs(key) > 0 and math.abs(key) <= #table) then
@@ -104,6 +109,9 @@ c = function(arg)
 			_table[key] = value
 		end,
 
+		-- Function for the + operator
+		-- It can add single integers
+		-- or tables, if different size, reuses elements
 		__add = function(table,o)
 			local new = c{}
 
@@ -114,6 +122,7 @@ c = function(arg)
 			elseif (type(o) == "table") then
 				local smallest = nil
 				local biggest = nil
+				
 				if (#_table >= #o) then
 					biggest = _table
 					smallest = o
@@ -125,9 +134,7 @@ c = function(arg)
 				for i=1, #biggest do
 					new = new .. (biggest[i]+smallest[calcIndex(i,#smallest)])
 				end
-
 			end
-
 			return new
 		end,
 
