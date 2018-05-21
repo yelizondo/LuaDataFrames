@@ -246,15 +246,18 @@ c = function(arg)
 				end
 			end
 			return new
-
-		end,
-
-		__mod = function(table,o)
 		end,
 
 		__unm = function(table)
+			local new = c{}
+
+			for i=1, #_table do 
+				new = new .. - _table[i]
+			end
+			return new
 		end,
 
+		-- Comparison Operators
 		__eq = function(table,v)
 		end,
 
