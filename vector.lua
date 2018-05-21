@@ -1,6 +1,3 @@
-
-
-
 c = {}
 
 c = function(arg)
@@ -257,30 +254,13 @@ c = function(arg)
 			return new
 		end,
 
+	--=====================================================
 		-- Comparison Operators
+		-- Lua only allows to work with two vectors
+		-- Para las funciones de comparacion
+		-- lua no deja retornar un table, como se hace en R
+		-- Implementacion queda pendiente
 		__eq = function(table,o)
-			local new = c{} 
-			if (type(o) == "number") then 
-				for i=1,#_table do
-					new[i] = _table[i] == o
-				end
-			elseif (type(o) == "table") then 
-				local smallest = nil
-				local biggest = nil
-				
-				if (#_table >= #o) then
-					biggest = _table
-					smallest = o
-				else
-					smallest = _table
-					biggest = o
-				end
-
-				for i=1, #biggest do
-					new = new .. (biggest[i] == smallest[calcIndex(i,#smallest)])
-				end 
-			end 
-			return new
 		end,
 
 		__lt = function(table,v)
@@ -288,10 +268,14 @@ c = function(arg)
 
 		__le = function(table,v)
 		end,
+	--=====================================================
 
 		__concat = function(table,v)
 			local new = c{}
-			if (type(v) ~= "table") then 
+			if (type(v) ~= "table") then
+				for i=1, #_table do
+					new[i] = _table[i]
+				end
 				new[#_table+1] = v
 			else 
 				for i=1,#_table do
@@ -334,14 +318,8 @@ c = function(arg)
 		end
 	}
 
-
-
-
 	setmetatable(table, metatable)
 	return table
-end
-
-function vector()	
 end
 
 -- Prints an error and returns nil
@@ -358,6 +336,10 @@ function elementsInRange(table,min,max)
 		end
 	end
 	return true
+end
+
+function length(vector)
+	return #vector
 end
 
 
@@ -380,6 +362,30 @@ function tableToVector(table)
 
 	for i=1, #table do
 		new = new .. table[i]
+	end
+
+	return new
+end
+
+
+function vector(pMode,pLength)
+	pMode = pMode or "any"
+	pLength = pLength or 0
+
+	local new = c{}
+
+	if (pMode == "logical") then
+	elseif (pMode == "numeric" or pMode == "double") then
+		if (pLength == 0) then 
+			return new
+		else
+			for i=1, pLength do
+				new = new .. false
+			end
+		end 
+	elseif (pMode == "character") then
+	elseif (pMode == "raw") then
+	elseif (pMode == "any") then	
 	end
 
 	return new
