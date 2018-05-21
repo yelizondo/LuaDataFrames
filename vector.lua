@@ -182,13 +182,71 @@ c = function(arg)
 
 		__mul = function(table, o)
 			local new = c{}
-			for i = 1, #_table do 
-				new[i]= _table[i] * o 
+
+			if (type(o) == "number") then
+				for i=1,#_table do
+					new[i] = _table[i] * o
+				end
+			elseif (type(o) == "table") then
+				local smallest = nil
+				local biggest = nil
+				
+				if (#_table >= #o) then
+					biggest = _table
+					smallest = o
+				else
+					smallest = _table
+					biggest = o
+				end
+
+				for i=1, #biggest do
+					new = new .. (biggest[i]*smallest[calcIndex(i,#smallest)])
+				end
 			end
 			return new
 		end,
 
 		__div = function(table,o)
+			local new = c{}
+
+			-- Single number
+			if (type(o) == "number") then
+				for i=1,#_table do
+					new[i] = _table[i] / o
+				end
+
+			-- Table
+			elseif (type(o) == "table") then 
+				local firstOp = tableToVector(_table)
+				local secondOp = o
+
+				-- Same length, no reusing
+				if (#o == #_table) then 
+					for i=1, #firstOp do
+						new = new .. (firstOp[i] / secondOp[i])
+					end
+
+				-- Different length, reusing
+				else 
+					local biggest = nil
+
+					if (#firstOp >= #secondOp) then 
+						biggest = #firstOp
+					else
+						biggest = #secondOp
+					end 
+
+					for i=1, biggest do
+						if (#firstOp >= #secondOp) then 
+							new = new .. (firstOp[i]/secondOp[calcIndex(i,#secondOp)])
+						else
+							new = new .. (firstOp[calcIndex(i,#firstOp)]/secondOp[i])
+						end
+					end
+				end
+			end
+			return new
+
 		end,
 
 		__mod = function(table,o)
