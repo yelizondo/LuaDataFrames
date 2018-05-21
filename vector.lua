@@ -140,8 +140,42 @@ c = function(arg)
 
 		__sub = function(table,o)
 			local new = c{}
-			for i = 1, #_table do 
-				new[i]= _table[i] - o 
+
+			-- Single number
+			if (type(o) == "number") then
+				for i=1,#_table do
+					new[i] = _table[i] - o
+				end
+
+			-- Table
+			elseif (type(o) == "table") then 
+				local firstOp = tableToVector(_table)
+				local secondOp = o
+
+				-- Same length, no reusing
+				if (#o == #_table) then 
+					for i=1, #firstOp do
+						new = new .. (firstOp[i] - secondOp[i])
+					end
+
+				-- Different length, reusing
+				else 
+					local biggest = nil
+
+					if (#firstOp >= #secondOp) then 
+						biggest = #firstOp
+					else
+						biggest = #secondOp
+					end 
+
+					for i=1, biggest do
+						if (#firstOp >= #secondOp) then 
+							new = new .. (firstOp[i]-secondOp[calcIndex(i,#secondOp)])
+						else
+							new = new .. (firstOp[calcIndex(i,#firstOp)]-secondOp[i])
+						end
+					end
+				end
 			end
 			return new
 		end,
@@ -244,4 +278,14 @@ function calcIndex(index,lim)
 			return (index%lim) + 3
 		end
 	end
+end
+
+function tableToVector(table)
+	local new = c{}
+
+	for i=1, #table do
+		new = new .. table[i]
+	end
+
+	return new
 end
