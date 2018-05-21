@@ -1,19 +1,5 @@
 
--- Prints an error and returns nil
-function THROW_ERROR(errorName)
-	print(errorName)
-	return
-end
 
--- Checks if all the elements of a table are within a range
-function elementsInRange(table,min,max)
-	for i=1,#table do
-		if (not(table[i] >= min and table[i] <= max)) then 
-			return false
-		end
-	end
-	return true
-end
 
 c = {}
 
@@ -22,8 +8,6 @@ c = function(arg)
   	local _table = table
 
     table = {}
-
-
 
     -- Allows to check if all the elements are booleans
     table.allBoolean = function()
@@ -52,9 +36,6 @@ c = function(arg)
     	end
     	return true
     end
-
-    -- Allows to give specific names to each element
-
 
    	local metatable = {
 		__index = function (table, key)
@@ -125,9 +106,28 @@ c = function(arg)
 
 		__add = function(table,o)
 			local new = c{}
-			for i = 1, #_table do 
-				new[i]= _table[i] + o 
+
+			if (type(o) == "number") then
+				for i=1,#_table do
+					new[i] = _table[i] + o
+				end
+			elseif (type(o) == "table") then
+				local smallest = nil
+				local biggest = nil
+				if (#_table >= #o) then
+					biggest = _table
+					smallest = o
+				else
+					smallest = _table
+					biggest = o
+				end
+
+				for i=1, #biggest do
+					new = new .. (biggest[i]+smallest[calcIndex(i,#smallest)])
+				end
+
 			end
+
 			return new
 		end,
 
@@ -198,11 +198,43 @@ c = function(arg)
 		end
 	}
 
+
+
+
 	setmetatable(table, metatable)
 	return table
 end
 
-function vector()
-	
+function vector()	
 end
 
+-- Prints an error and returns nil
+function THROW_ERROR(errorName)
+	print(errorName)
+	return
+end
+
+-- Checks if all the elements of a table are within a range
+function elementsInRange(table,min,max)
+	for i=1,#table do
+		if (not(table[i] >= min and table[i] <= max)) then 
+			return false
+		end
+	end
+	return true
+end
+
+
+-- Calculates the index to use
+-- when reusing elements
+function calcIndex(index,lim)
+	if (index <= lim) then
+		return index
+	else 
+		if (index%lim ~= 0) then
+			return (index%lim) 
+		else
+			return (index%lim) + 3
+		end
+	end
+end
