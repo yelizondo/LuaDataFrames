@@ -1,3 +1,5 @@
+require "rcore"
+
 c = {}
 
 c = function(arg)
@@ -256,16 +258,14 @@ c = function(arg)
 
 	--=====================================================
 		-- Comparison Operators
-		-- Lua only allows to work with two vectors
-		-- Para las funciones de comparacion
+		--> Lua only allows to work with two vectors
+		--> Para las funciones de comparacion
 		-- lua no deja retornar un table, como se hace en R
 		-- Implementacion queda pendiente
 		__eq = function(table,o)
 		end,
-
 		__lt = function(table,v)
 		end,
-
 		__le = function(table,v)
 		end,
 	--=====================================================
@@ -291,6 +291,7 @@ c = function(arg)
 			return new
 		end,
 
+		-- Add matrix printing support
 		__tostring = function(table) 
 			local result = ""
 			for i = 1,#_table do 
@@ -321,11 +322,6 @@ c = function(arg)
 	return table
 end
 
--- Prints an error and returns nil
-function THROW_ERROR(errorName)
-	print(errorName)
-	return
-end
 
 -- Checks if all the elements of a table are within a range
 function elementsInRange(table,min,max)
@@ -341,7 +337,6 @@ function length(vector)
 	return #vector
 end
 
-
 -- Calculates the index to use
 -- when reusing elements
 function calcIndex(index,lim)
@@ -354,6 +349,7 @@ function calcIndex(index,lim)
 			return (index%lim) + 3
 		end
 	end
+
 end
 
 function tableToVector(table)
@@ -399,3 +395,4 @@ function vector(args)
 
 	return new
 end
+
