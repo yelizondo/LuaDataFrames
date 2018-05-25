@@ -3,18 +3,39 @@ require "rcore"
 
 -- Main function
 matrix = function (arg)
+
 	-- Initialization
+	arg = argumentRevision(arg)
+
+	local newMatrix = buildMatrix(arg)
+	
+end
+
+function argumentRevision(arg)
+	
 	if (is_empty{x=arg.data}) then
 		THROW_ERROR("Data vector expected but arg.data is empty")
 		return nil
 	end
 
-	arg.nrow
-	arg.ncol
-	arg.byrow
-	arg.dimnames
-	arg.x
+	arg.byrow = arg.byrow or false
+
+	if (arg.nrow == nil and arg.ncol == nil) then
+		arg.nrow = 1
+		arg.ncol = 1 
+	elseif (arg.nrow == true and arg.ncol == false) then
+		arg.ncol = #arg.data / nrow
+	elseif (arg.nrow == false and arg.ncol == true)  
+		arg.nrow = #arg.data / ncol
+	end 
 	
+	-- To do at the ending
+	arg.dimnames = arg.dimnames
+
+	-- First got to find out what this
+	arg.x = arg.x
+
+	return arg
 end
 
 function is.matrix()
@@ -25,18 +46,5 @@ end
 
 -- Pending revision
 function buildMatrix(table)
-	local data = table[1]
-	if (#data == 0 or data == "nil") then 
-		return THROW_ERROR("data must be of a vector type, was nil. Execution halted") 
-	end
-	local nrow = table.nrow
-	local ncol = table.ncol
-	local byrow = table.byrow
-	local names = table.dimnames
-	local sparse = table.sparse
-	local doDiag = table.doDiag
-	local forceCheck = table.forceCheck
-
-
-
+	
 end

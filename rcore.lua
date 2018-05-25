@@ -1,8 +1,10 @@
-function is_empty(arg)
-	
+NA = -9999991
 
-	if (type(arg) == "table") then
-		if (#arg == 0) then
+function is_empty(arg)
+
+
+	if (type(arg.x) == "table") then
+		if (#arg.x == 0) then
 			return true 
 		end
 		return false
