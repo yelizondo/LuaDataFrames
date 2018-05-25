@@ -8,7 +8,8 @@ matrix = function (arg)
 	arg = argumentRevision(arg)
 
 	local newMatrix = buildMatrix(arg)
-	
+
+	return newMatrix	
 end
 
 function argumentRevision(arg)
@@ -23,10 +24,10 @@ function argumentRevision(arg)
 	if (arg.nrow == nil and arg.ncol == nil) then
 		arg.nrow = 1
 		arg.ncol = 1 
-	elseif (arg.nrow == true and arg.ncol == false) then
-		arg.ncol = #arg.data / nrow
-	elseif (arg.nrow == false and arg.ncol == true)  
-		arg.nrow = #arg.data / ncol
+	elseif (arg.nrow ~= nil and arg.ncol == nil) then
+		arg.ncol = #arg.data / arg.nrow 
+	elseif (arg.nrow == nil and arg.ncol ~= nil)   then
+		arg.nrow = #arg.data / arg.ncol
 	end 
 	
 	-- To do at the ending
@@ -38,13 +39,33 @@ function argumentRevision(arg)
 	return arg
 end
 
-function is.matrix()
+function is_matrix()
 end
-function at.matrix()
+function at_matrix()
 end
 
 
 -- Pending revision
-function buildMatrix(table)
-	
+function buildMatrix(arg)
+	local cols
+	local rows
+	local result = c{}
+
+	if (arg.byrow) then
+		rows = arg.nrow
+		cols = arg.ncol
+	else 
+		cols = arg.nrow
+		rows = arg.ncol
+	end
+
+	for i=1,cols do
+		local elements = c{}
+		for j=1,rows do
+			elements = elements .. arg.data[cols*rows]
+		end
+		result = result .. elements
+	end
+
+	return result
 end
