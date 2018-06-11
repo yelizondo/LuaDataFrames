@@ -63,7 +63,7 @@ c = function(arg)
 						return new
 					end
 				else
-					THROW_ERROR("NA")
+					THROW_ERROR("NA | Index not found")
 					return
 				end
 			elseif (type(key) == "table") then 
@@ -321,7 +321,6 @@ c = function(arg)
 	setmetatable(table, metatable)
 	return table
 end
-
 
 -- Checks if all the elements of a table are within a range
 function elementsInRange(table,min,max)

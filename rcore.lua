@@ -1,5 +1,8 @@
 NA = -9999991
 
+is = {}
+at = {}
+
 function is_empty(arg)
 
 
@@ -13,6 +16,6 @@ end
 
 -- Prints an error and returns nil
 function THROW_ERROR(errorName)
-	print(errorName)
-	return 
+	print("ERROR: ",errorName)
+	return nil
 end

@@ -41,12 +41,6 @@ function argumentRevision(arg)
 	return arg
 end
 
-function is_matrix()
-end
-
-function at_matrix()
-end
-
 function buildMatrix(arg)
 	local cols
 	local rows
@@ -76,16 +70,76 @@ function buildMatrix(arg)
 end
 
 function printMatrix(matrix)
-	local indexes = "\t"
+	local indexes = ""
 	for i=1,#matrix[1] do
-		indexes = indexes .. "\t" .. i
+		indexes = indexes .. "\t" .. i .. "."
 	end
 
 	print(indexes)
-	print("")
 
 	for i=1, #matrix do
-		print(i.."\t",matrix[i])
+		print(i..".",matrix[i])
+	end
+	print()
+end
+
+-- On development
+function is.matrix()
+end
+
+function at.matrix()
+end
+
+-- Transpose a matrix
+function t(matrix)
+	local result = c{}
+	for i=1,#matrix[1] do
+		result[i] = c{}
 	end
 
+	for i=1, #matrix do
+		for j=1,#matrix[i] do
+			result[j][i] = matrix[i][j]
+		end
+	end
+	return result
+end
+
+-- Combining matrices
+function cbind(m1,m2)
+	if (#m1 == #m2) then
+		for i=1,#m1 do
+			m1[i] = m1[i] .. m2[i]
+		end
+
+		return m1
+	else
+		return THROW_ERROR("Argument matrices for cbing must have the same amount of rows")
+	end
+end
+
+function rbind(m1,m2)
+	if (#m1[1] == #m2[1]) then
+		
+		for i=1,#m2 do
+			m1[#m1+1] =  m2[i]
+		end
+
+		return m1
+	else
+		return THROW_ERROR("Argument matrices for cbing must have the same amount of columns")
+	end
+end
+
+-- Deconstruct mustn't bell called c(), 'cause will cause conflict 
+function deconstruc(matrix)
+	local result = c{}
+
+	for i=1,#matrix do
+		for j=1, matrix[i] do
+			result = result .. matrix[i][j]
+		end
+	end
+
+	return result
 end
