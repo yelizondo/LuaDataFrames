@@ -1,6 +1,8 @@
 require "vector"
 require "rcore"
 
+-- Indexing is made with vector indexing, no need to implement
+
 -- Main function
 matrix = function (arg)
 
@@ -29,11 +31,11 @@ function argumentRevision(arg)
 	elseif (arg.nrow == nil and arg.ncol ~= nil)   then
 		arg.nrow = #arg.data / arg.ncol
 	end 
-	
+
 	-- To do at the ending
 	arg.dimnames = arg.dimnames
 
-	-- First got to find out what this
+	-- First got to find out what this is
 	arg.x = arg.x
 
 	return arg
@@ -59,12 +61,16 @@ function buildMatrix(arg)
 		rows = arg.ncol
 	end
 
-	for i=1,cols do
-		local elements = c{}
-		for j=1,rows do
-			elements = elements .. arg.data[cols*rows]
+	-- Initialize the matrix
+	for i=1,rows do
+		result[i] = c{}
+	end
+	
+	-- Fill the matrix
+	for i=0, rows-1 do
+		for j=1, cols do
+			result[i+1][j] = arg.data[i*cols+j]
 		end
-		result = result .. elements
 	end
 
 	return result
