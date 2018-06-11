@@ -1,2 +1,2 @@
 # LuaDataFrames
-Library that allows Lua to manage Data Frames like R
+Library that allows Lua to manage Data Frames, vectors and matrixes like R

@@ -43,11 +43,10 @@ end
 
 function is_matrix()
 end
+
 function at_matrix()
 end
 
-
--- Pending revision
 function buildMatrix(arg)
 	local cols
 	local rows
@@ -65,7 +64,7 @@ function buildMatrix(arg)
 	for i=1,rows do
 		result[i] = c{}
 	end
-	
+
 	-- Fill the matrix
 	for i=0, rows-1 do
 		for j=1, cols do
@@ -74,4 +73,19 @@ function buildMatrix(arg)
 	end
 
 	return result
+end
+
+function printMatrix(matrix)
+	local indexes = "\t"
+	for i=1,#matrix[1] do
+		indexes = indexes .. "\t" .. i
+	end
+
+	print(indexes)
+	print("")
+
+	for i=1, #matrix do
+		print(i.."\t",matrix[i])
+	end
+
 end
