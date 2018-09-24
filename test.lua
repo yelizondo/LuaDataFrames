@@ -1,12 +1,10 @@
 require "matrix"
 require "vector"
+require "fileio"
 
-local a = matrix{data=c{0,0,0,0,0,0},nrow=3,ncol=2,byrow=true}
-local b = matrix{data=c{1,1,1,1,1,1},nrow=3,ncol=2,byrow=true}
-
-printMatrix(a)
-printMatrix(b)
-
-a = rbind(a,b)
-
-printMatrix(a)
+--local a = matrix{data=c{0,0,0,0,0,0},nrow=3,ncol=2,byrow=true}
+--local b = matrix{data=c{1,1,1,1,1,1},nrow=3,ncol=2,byrow=true}
+--printMatrix(a)
+--printMatrix(b)
+--a = rbind(a,b)
+--printMatrix(a)
