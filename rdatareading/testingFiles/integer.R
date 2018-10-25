@@ -1,2 +1,3 @@
-var <- 21
-save(var,file="/home/yuberth/Projects/LuaDataFrames/rdatareading/testingfiles/integer.d",ascii=T)
+var1 <- 21
+var2 <- 12
+save(var,var2,file="/home/yuberth/Projects/LuaDataFrames/rdatareading/testingFiles/integer.d",ascii=T)

@@ -4,8 +4,6 @@ is = {}
 at = {}
 
 function is_empty(arg)
-
-
 	if (type(arg.x) == "table") then
 		if (#arg.x == 0) then
 			return true 
