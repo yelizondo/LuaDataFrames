@@ -1,3 +1,5 @@
+-- Some necessary code to mimic R
+
 NA = -9999991
 
 is = {}
@@ -10,10 +12,4 @@ function is_empty(arg)
 		end
 		return false
 	end
-end
-
--- Prints an error and returns nil
-function THROW_ERROR(errorName)
-	print("ERROR: ",errorName)
-	return nil
 end

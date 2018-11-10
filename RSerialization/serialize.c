@@ -247,24 +247,25 @@ static int Rsnprintf(char *buf, int size, const char *format, ...)
 static void OutInteger(R_outpstream_t stream, int i)
 {
     char buf[128];
-    switch (stream->type) {
-    case R_pstream_ascii_format:
-    case R_pstream_asciihex_format:
-	if (i == NA_INTEGER)
-	    Rsnprintf(buf, sizeof(buf), "NA\n");
-	else
-	    Rsnprintf(buf, sizeof(buf), "%d\n", i);
-	stream->OutBytes(stream, buf, (int)strlen(buf));
-	break;
-    case R_pstream_binary_format:
-	stream->OutBytes(stream, &i, sizeof(int));
-	break;
-    case R_pstream_xdr_format:
-	R_XDREncodeInteger(i, buf);
-	stream->OutBytes(stream, buf, R_XDR_INTEGER_SIZE);
-	break;
-    default:
-    error(("unknown or inappropriate output format"));
+    switch (stream->type)
+    {
+        case R_pstream_ascii_format:
+        case R_pstream_asciihex_format:
+            if (i == NA_INTEGER)
+                Rsnprintf(buf, sizeof(buf), "NA\n");
+            else
+                Rsnprintf(buf, sizeof(buf), "%d\n", i);
+            stream->OutBytes(stream, buf, (int)strlen(buf));
+            break;
+        case R_pstream_binary_format:
+            stream->OutBytes(stream, &i, sizeof(int));
+            break;
+        case R_pstream_xdr_format:
+            R_XDREncodeInteger(i, buf);
+            stream->OutBytes(stream, buf, R_XDR_INTEGER_SIZE);
+            break;
+        default:
+            error(("unknown or inappropriate output format"));
     }
 }
 

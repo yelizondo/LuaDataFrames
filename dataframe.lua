@@ -2,48 +2,29 @@
 -- with the R syntax as a base
 -- Developed by Yuberth ELizondo Cordero
 
--- This method uses ftcsv to read CVS files
--- Returns a DataFrame
-function readCSV(path,sep)
-	dataFrame = {}
+require "fileio"
+require "utils"
 
-	-- Lib to read csv
-	local ftcsv = require('ftcsv')
+dataframe = {}
 
-	-- data
-	local data, headers = ftcsv.parse(path,sep)
+dataframe = function()
+	local df = {}
 
-	for i = 1, #data do
-		prev = {}
-		for j = 1, #headers do
-			prev[j] = data[i][headers[j]]
+	local metatable = {
+		__index = function (df, key)
+		end,
+
+		__newindex = function (df, key, value)
+		end,
+
+		__tostring = function(df)
+			local result = ""
+			return result
 		end
-		dataFrame[i] = prev
-	end
-
-	-- set the headers
-	for i = #dataFrame, 1, -1 do
-		dataFrame[i+1] = dataFrame[i] 
-	end
-	dataFrame[1] = headers
-
-	return dataFrame
-end
-
--- Prints a Lua Table
-function printTable(table)
-	local result = ""
-	for i=1,#table do
-		result = result .. " " .. table[i]
-	end
-	print(result)
-end
-
--- Prints a Data Frame
-function printDataFrame(table)
-	for i = 1, #table do
-		printTable(table[i])
-	end
+	}
+	
+	setmetatable(df, metatable)
+	return df
 end
 
 -- Prints the head of a data frame, row or column, default is 6 rows
