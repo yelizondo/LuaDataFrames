@@ -1,5 +1,9 @@
+require "fileio"
+require "utils"
 require "dataframe"
 
-dataframe = dataframe()
+local df = readCSV("mtcars.csv",",")
 
-print(dataframe)
+for i=1,#df do
+	printTable(df[i])
+end

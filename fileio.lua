@@ -1,3 +1,5 @@
+--require "dataframe"
+
 -- Def: Reads all the contents from a file
 -- Ret: string
 function readAllFile(pFilePath)
@@ -16,36 +18,72 @@ function writeFile(pFilePath, pContent, mode)
 	file:close()
 end
 
--- Def: Reads a csv file
+-- Def: Reads a csv line
 -- Ret: table
-function readCSV(pFilePath, pDelimiter)
-
+function parseCSVLine(line, sep) 
+	local res = {}
+	local pos = 1
+	sep = sep or ','
+	while true do 
+		local c = string.sub(line,pos,pos)
+		if (c == "") then break end
+		if (c == '"') then
+			-- quoted value (ignore separator within)
+			local txt = ""
+			repeat
+				local startp,endp = string.find(line,'^%b""',pos)
+				txt = txt..string.sub(line,startp+1,endp-1)
+				pos = endp + 1
+				c = string.sub(line,pos,pos) 
+				if (c == '"') then txt = txt..'"' end 
+				-- check first char AFTER quoted string, if it is another
+				-- quoted string without separator, then append it
+				-- this is the way to "escape" the quote char in a quote. example:
+				--   value1,"blub""blip""boing",value3  will result in blub"blip"boing  for the middle
+			until (c ~= '"')
+			table.insert(res,txt)
+			assert(c == sep or c == "")
+			pos = pos + 1
+		else	
+			-- no quotes used, just look for the first separator
+			local startp,endp = string.find(line,sep,pos)
+			if (startp) then 
+				table.insert(res,string.sub(line,pos,startp-1))
+				pos = endp + 1
+			else
+				-- no separator found -> use rest of string and terminate
+				table.insert(res,string.sub(line,pos))
+				break
+			end 
+		end
+	end
+	return res
 end
 
--- This method uses ftcsv to read CVS files
--- Returns a DataFrame
-function readCSVaux(path,sep)
-	dataFrame = {}
+-- Def: Reads a csv file
+-- Ret: table ;  i=1 -> headers ; i[][1] = names
+function readCSV(pFilePath, pDelimiter)
+	local data = {}
+	
+	-- Read the file
+	local file = readAllFile(pFilePath)
+	local csvLines = splitString(file,"\n")
 
-	-- Lib to read csv
-	local ftcsv = require('ftcsv')
+	-- Read the headers
+	local headers = parseCSVLine(table.remove(csvLines,1),pDelimiter)
+	
+	
 
-	-- data
-	local data, headers = ftcsv.parse(path,sep)
+	-- Set the headers
+	data[1] = headers
 
-	for i = 1, #data do
-		prev = {}
-		for j = 1, #headers do
-			prev[j] = data[i][headers[j]]
-		end
-		dataFrame[i] = prev
+	-- Set the remaining data
+	for i=1, #csvLines do
+		local contentTable = parseCSVLine(csvLines[i], pDelimiter)
+		table.insert(data, contentTable)
 	end
 
-	-- set the headers
-	for i = #dataFrame, 1, -1 do
-		dataFrame[i+1] = dataFrame[i] 
-	end
-	dataFrame[1] = headers
+	data[1] = headers
 
-	return dataFrame
+	return data
 end
