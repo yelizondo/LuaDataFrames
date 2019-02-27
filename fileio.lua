@@ -1,4 +1,5 @@
---require "dataframe"
+require "vector"
+require "utils"
 
 -- Def: Reads all the contents from a file
 -- Ret: string
@@ -62,17 +63,15 @@ end
 
 -- Def: Reads a csv file
 -- Ret: table ;  i=1 -> headers ; i[][1] = names
-function readCSV(pFilePath, pDelimiter)
+function readCSVtoTable(pFilePath, pDelimiter)
 	local data = {}
-	
+
 	-- Read the file
 	local file = readAllFile(pFilePath)
 	local csvLines = splitString(file,"\n")
 
 	-- Read the headers
 	local headers = parseCSVLine(table.remove(csvLines,1),pDelimiter)
-	
-	
 
 	-- Set the headers
 	data[1] = headers
@@ -86,4 +85,47 @@ function readCSV(pFilePath, pDelimiter)
 	data[1] = headers
 
 	return data
+end
+
+-- Def: read a csv file to a DataFrame
+-- Ret: DataFrame
+function readCSVToDF(pFilePath, pDelimiter)
+	local data = c{}
+
+	-- Read the file
+	local file = readAllFile(pFilePath)
+	local csvLines = splitString(file,"\n")
+
+	-- Read the headers
+	local headers = parseCSVLine(table.remove(csvLines,1),pDelimiter)
+
+	-- Set the headers
+	data[1] = c(headers)
+
+	-- Set the remaining data
+	for i=1, #csvLines do
+		local contentTable = parseCSVLine(csvLines[i], pDelimiter)
+		data[i+1] = c(contentTable)
+	end
+
+	data[1] = c(headers)
+
+	return data
+end
+
+-- Def: read a csv file 
+-- Ret: Depends on the returnType set by the user, default is dataFrame
+function readCSV(pFilePath, pDelimiter, pReturnType)
+	pReturnType = pReturnType or "df"
+	local result = nil
+
+	if (pReturnType == "df") then
+		result = readCSVToDF(pFilePath, pDelimiter)
+	elseif (pReturnType == "t") then
+		result = readCSVtoTable(pFilePath, pDelimiter)
+	else
+		THROW_ERROR("Return type not supported, use \"df\" for data frame or \"t\" for table")
+	end
+
+	return result
 end

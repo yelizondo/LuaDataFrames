@@ -27,6 +27,17 @@ dataframe = function()
 	return df
 end
 
+-- Def: load a csv file to a dataFrame
+-- Ret: dataframe
+function csvToDataFrame(pFilePath, pDelimiter)
+	local df = dataframe()
+
+	local csvTable = readCSV(pFilePath, pDelimiter)
+	
+	return df
+end
+
+
 -- Prints the head of a data frame, row or column, default is 6 rows
 function head(dataFrame, rows)
 	rows = rows or 6
